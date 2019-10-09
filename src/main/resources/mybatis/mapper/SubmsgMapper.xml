@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.liud.aa.mapper.SubmsgMapper">
+
+        <!-- 通用查询映射结果 -->
+        <resultMap id="BaseResultMap" type="cn.com.liud.aa.entity.Submsg">
+                    <id column="id" property="id" />
+                    <result column="sub_user" property="subUser" />
+                    <result column="sub_money" property="subMoney" />
+                    <result column="sub_time" property="subTime" />
+                    <result column="sub_picture" property="subPicture" />
+                    <result column="aa_people" property="aaPeople" />
+                    <result column="is_checked" property="isChecked" />
+                    <result column="remark" property="remark" />
+        </resultMap>
+
+        <!-- 通用查询结果列 -->
+        <sql id="Base_Column_List">
+        id, sub_user, sub_money, sub_time, sub_picture, aa_people, is_checked, remark
+    </sql>
+
+</mapper>

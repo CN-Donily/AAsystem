@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>提交页面</title>
+    <!--App自定义的css-->
+    <link rel="stylesheet" type="text/css" href="/css/app.css"/>
+    <style>
+
+        p{
+            height:3em;
+            margin-top:3em;
+            margin-bottom: 2em;
+            line-height: 3em;
+        }
+        p span{
+            font-size: 2em;
+        }
+
+        p input{
+            font-size: 1.5em;
+            height:2em;
+            margin-left:2em;
+        }
+
+        p select{
+            font-size: 1.5em;
+            height:2em;
+            margin-left:2em;
+        }
+
+        p input[type=checkbox] {
+            -ms-transform: scale(4); /* IE */
+            -moz-transform: scale(4); /* FireFox */
+            -webkit-transform: scale(4); /* Safari and Chrome */
+            -o-transform: scale(4); /* Opera */
+            height:0.5em;
+            margin-left: 0.5em;
+        }
+
+        p span label{
+            display: inline-block;
+            margin-left: 0.5em;
+        }
+
+        p input[type=button] {
+            width:8em;
+            margin-left:2em;
+        }
+    </style>
+</head>
+<body>
+    <p>
+        <span>付钱人:</span>
+        <select id="costPerson">
+            <option th:each="userList:${userList}" th:text="${userList}" th:value="${userList}"></option>
+        </select>
+    </p>
+    <p>
+        <span>金额:</span>
+        <input id="subMoney" style="width: 6em" type="text" onkeyup="value=value.replace(/[^\d.]/g,'')" placeholder="正整数/小数">
+    </p>
+    <p>
+        <span>AA对象:</span>
+        <span th:each="userList:${userList}"><input type="checkbox" th:value="${userList}" name="aaPeople"/><label th:text="${userList}"></label></span>
+    </p>
+    <p><input type="button" value="提交" onclick="sub()"> <input type="button" value="查看本周AA结果" onclick="showAA()"></p>
+</body>
+<script src="/js/jquery-1.11.1.js"></script>
+<script>
+    function sub(){
+        var costPerson=$("#costPerson").val();
+        var subMoney=$("#subMoney").val();
+        if(costPerson==""){
+            alert("请选择付款人");
+            return;
+        }
+        if(subMoney==""){
+            alert("请输入花费金额");
+            return;
+        }
+        if(subMoney.lastIndexOf(".")==subMoney.length-1||subMoney.indexOf(".")==0||(subMoney.indexOf(".")!=-1&&subMoney.indexOf(".")!=subMoney.lastIndexOf("."))){
+            alert("金额异常，可能不是规范的小数");
+            return;
+        }
+        var aaPeopleStr="";
+        var num=0;
+        $("input[name='aaPeople']:checkbox").each(function(){
+            if(this.checked){
+                num++;
+                if(aaPeopleStr==""){
+                    aaPeopleStr+=$(this).val();
+                }else{
+                    aaPeopleStr+=","+$(this).val();
+                }
+            }
+        });
+        if(num<2){
+            alert("aa人数少于2，不用录入系统");
+            return;
+        }
+
+        $.ajax({
+            type: "post",
+            url: "saveSubMsg",
+            data: {costPerson:costPerson, subMoney:subMoney,aaPeopleStr:aaPeopleStr},
+            dataType: "json",
+            success: function(data){
+                alert(data.msg);
+                window.location.reload();
+            }
+        });
+    }
+
+    function showAA(){
+        $.ajax({
+            type: "get",
+            url: "showAA",
+            data: null,
+            dataType: "json",
+            success: function(data){
+                alert(data.msg);
+            }
+        });
+    }
+</script>
+</html>
