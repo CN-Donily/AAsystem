@@ -1,6 +1,6 @@
 package cn.com.liud.aa.mapper;
 
-import cn.com.liud.aa.entity.Submsg;
+import cn.com.liud.aa.entity.SubMsg;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
 /**
@@ -11,6 +11,6 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  * @author Donily
  * @since 2019-09-23
  */
-public interface SubmsgMapper extends BaseMapper<Submsg> {
+public interface SubMsgMapper extends BaseMapper<SubMsg> {
 
 }

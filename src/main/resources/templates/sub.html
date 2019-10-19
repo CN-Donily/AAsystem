@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <title>提交页面</title>
     <!--App自定义的css-->
-    <link rel="stylesheet" type="text/css" href="/css/app.css"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/app.css}"/>
     <style>
 
         p{
@@ -45,7 +45,7 @@
 
         p input[type=button] {
             width:8em;
-            margin-left:2em;
+            margin-left:1em;
         }
     </style>
 </head>
@@ -64,9 +64,14 @@
         <span>AA对象:</span>
         <span th:each="userList:${userList}"><input type="checkbox" th:value="${userList}" name="aaPeople"/><label th:text="${userList}"></label></span>
     </p>
-    <p><input type="button" value="提交" onclick="sub()"> <input type="button" value="查看本周AA结果" onclick="showAA()"></p>
+    <p>
+        <span>备注:</span>
+        <input id="remark" style="width: 12em" type="text" placeholder="说明用途">
+    </p>
+    <p><input type="button" value="提交" onclick="sub()"> <input type="button" value="查看本周AA结果" onclick="showAA()">
+        <input type="button" value="查看清单" onclick="showSubList()"> </p>
 </body>
-<script src="/js/jquery-1.11.1.js"></script>
+<script th:src="@{/js/jquery-1.11.1.js}" ></script>
 <script>
     function sub(){
         var costPerson=$("#costPerson").val();
@@ -99,14 +104,21 @@
             alert("aa人数少于2，不用录入系统");
             return;
         }
+        var remark = $("#remark").val();
+        if(remark==""){
+            alert("请输入备注");
+            return;
+        }
 
         $.ajax({
             type: "post",
-            url: "saveSubMsg",
-            data: {costPerson:costPerson, subMoney:subMoney,aaPeopleStr:aaPeopleStr},
+            url: "../subMsg/saveSubMsg",
+            data: {costPerson:costPerson, subMoney:subMoney,aaPeopleStr:aaPeopleStr,remark:remark},
             dataType: "json",
-            success: function(data){
-                alert(data.msg);
+            success: function(res){
+                if (!res.isError) {
+                    alert("保存成功");
+                }
                 window.location.reload();
             }
         });
@@ -115,13 +127,20 @@
     function showAA(){
         $.ajax({
             type: "get",
-            url: "showAA",
+            url: "../subMsg/showAA",
             data: null,
             dataType: "json",
-            success: function(data){
-                alert(data.msg);
+            success: function(res){
+                if (!res.isError) {
+                    alert(res.data);
+                }
             }
         });
     }
+
+    function showSubList() {
+        window.location.href="../subMsg/getSubMsg";
+    }
+
 </script>
 </html>

@@ -1,8 +1,9 @@
 package cn.com.liud.aa.service;
 
-import cn.com.liud.aa.entity.User;
+import cn.com.liud.aa.entity.SubMsg;
 import com.baomidou.mybatisplus.extension.service.IService;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -13,8 +14,7 @@ import java.util.List;
  * @author Donily
  * @since 2019-09-23
  */
-public interface UserService extends IService<User> {
+public interface SubMsgService extends IService<SubMsg> {
 
-    List<String> getAllUserName();
-
+    List<SubMsg> getSubMsgFromStartToEndTime(Date startTime, Date endTime);
 }

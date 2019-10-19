@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>查询页面</title>
+    <!--App自定义的css-->
+    <link rel="stylesheet" type="text/css" th:href="@{/css/app.css}"/>
+    <style>
+        body{
+            font-size: 40px;
+        }
+        table,table tr th, table tr td { border:1px solid #0094ff; }
+        table { width: 100%; min-height: 100px; line-height: 100px; text-align: center; border-collapse: collapse;margin-top: 100px}
+        p input[type=button] {
+            width:400px;
+            margin-left:30%;
+            margin-top: 66px;
+            height: 80px;
+            font-size: 40px;
+        }
+    </style>
+</head>
+<body>
+    <table border="1px black solid">
+        <tr>
+            <th>序号</th>
+            <th>提交人</th>
+            <th>金额</th>
+            <th>aa人</th>
+            <th>备注</th>
+        </tr>
+        <tr th:each="msg,msgStat:${msgList}">
+            <td th:text="${msgStat.count}"></td>
+            <td th:text="${msg.subUser}"></td>
+            <td th:text="${msg.subMoney}"></td>
+            <td th:text="${msg.aaPeople}"></td>
+            <td th:text="${msg.remark}"></td>
+        </tr>
+    </table>
+    <p><input type="button" value="后退" onclick="back()"> </p>
+</body>
+<script th:src="@{/js/jquery-1.11.1.js}"></script>
+<script>
+    function back() {
+        window.history.go(-1);
+    }
+</script>
+</html>
